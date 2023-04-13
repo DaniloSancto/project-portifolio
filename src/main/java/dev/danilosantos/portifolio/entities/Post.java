@@ -4,10 +4,14 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -22,13 +26,19 @@ public class Post implements Serializable {
 	private String body;
 	private Instant moment;
 
+	@JsonIgnore
+	@ManyToOne
+	@JoinColumn(name = "user_id")
+	private User user;
+
 	public Post() {}
 	
-	public Post(Long id, String title, String body, Instant moment) {
+	public Post(Long id, String title, String body, Instant moment, User user) {
 		this.id = id;
 		this.title = title;
 		this.body = body;
 		this.moment = moment;
+		this.user = user;
 	}
 
 	public Long getId() {
@@ -62,7 +72,15 @@ public class Post implements Serializable {
 	public void setMoment(Instant moment) {
 		this.moment = moment;
 	}
+	
+	public User getUser () {
+		return user;
+	}
 
+	public void setUser(User user) {
+		this.user = user;
+	}
+	
 	@Override
 	public int hashCode() {
 		return Objects.hash(body, id, moment, title);

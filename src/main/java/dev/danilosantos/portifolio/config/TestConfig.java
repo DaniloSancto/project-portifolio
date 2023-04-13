@@ -29,10 +29,11 @@ public class TestConfig implements CommandLineRunner{
 		User user1 = new User(null, "Cleiton", "cleiton@gmail.com", "123456");
 		User user2 = new User(null, "Felipe", "felipe@gmail.com", "123456");
 		
-		Post post1 = new Post(null, "My personal work", "Its based on cinema things", Instant.parse("2023-04-04T21:53:07Z"));
-		Post post2 = new Post(null, "A job that i made", "Its a website to my friend from Mexico", Instant.parse("2023-04-10T13:22:35Z"));
-		
 		userRepository.saveAll(Arrays.asList(user1, user2));
+		
+		Post post1 = new Post(null, "My personal work", "Its based on cinema things", Instant.parse("2023-04-04T21:53:07Z"), user1);
+		Post post2 = new Post(null, "A job that i made", "Its a website to my friend from Mexico", Instant.parse("2023-04-10T13:22:35Z"), user2);
+		
 		postRepository.saveAll(Arrays.asList(post1, post2));
 		
 	}
