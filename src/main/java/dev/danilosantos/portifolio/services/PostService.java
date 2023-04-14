@@ -23,4 +23,8 @@ public class PostService {
 		Optional<Post> obj = repository.findById(id);
 		return obj.get();
 	}
+	
+	public Post insert(Post obj) {
+		return repository.save(obj);
+	}
 }

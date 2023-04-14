@@ -6,7 +6,10 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import dev.danilosantos.portifolio.dto.PostDTO;
+import dev.danilosantos.portifolio.dto.UserDTO;
 import dev.danilosantos.portifolio.entities.User;
+import dev.danilosantos.portifolio.repositories.PostRepository;
 import dev.danilosantos.portifolio.repositories.UserRepository;
 
 @Service
@@ -14,6 +17,9 @@ public class UserService {
 	
 	@Autowired
 	private UserRepository repository;
+	
+	@Autowired
+	private PostRepository postRepository;
 	
 	public List<User> findAll() {
 		return repository.findAll();
@@ -24,7 +30,22 @@ public class UserService {
 		return obj.get();
 	}
 	
-	public User insert(User obj) {
-		return repository.save(obj);
+	public UserDTO insert(UserDTO obj) {
+		User entity = new User();
+		copyDtoToEntity(obj, entity);
+		entity = repository.save(entity);
+		return new UserDTO(entity);
+	}
+
+	private void copyDtoToEntity(UserDTO dto, User entity) {
+		entity.setId(dto.getId());
+		entity.setName(dto.getName());
+		entity.setEmail(dto.getEmail());
+		entity.setPassword(dto.getPassword());
+		
+		entity.getPosts().clear();
+		for(PostDTO postDto : dto.getPosts()) {
+		postRepository.findById(postDto.getId()).ifPresent(post -> entity.getPosts().add(post));;
+		}
 	}
 }
