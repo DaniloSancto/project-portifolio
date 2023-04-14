@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import dev.danilosantos.portifolio.dto.PostDTO;
 import dev.danilosantos.portifolio.entities.Post;
 import dev.danilosantos.portifolio.services.PostService;
 
@@ -36,9 +37,9 @@ public class PostController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Post> insert(@RequestBody Post obj) {
-		obj = service.insert(obj);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
-		return ResponseEntity.created(uri).body(obj);
+	public ResponseEntity<PostDTO> insert(@RequestBody PostDTO obj) {
+		PostDTO newDto = service.insert(obj);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(newDto.getId()).toUri();
+		return ResponseEntity.created(uri).body(newDto);
 	}
 }

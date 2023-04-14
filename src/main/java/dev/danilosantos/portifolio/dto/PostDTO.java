@@ -12,14 +12,16 @@ public class PostDTO implements Serializable {
 	private String title;
 	private String body;
 	private Instant moment;
+	private UserDTO user;
 	
 	public PostDTO() {}
 	
-	public PostDTO(Long id, String title, String body, Instant moment) {
+	public PostDTO(Long id, String title, String body, Instant moment, UserDTO user) {
 		this.id = id;
 		this.title = title;
 		this.body = body;
 		this.moment = moment;
+		this.setUser(user);
 	}
 	
 	public PostDTO(Post entity) {
@@ -27,6 +29,7 @@ public class PostDTO implements Serializable {
 		title = entity.getTitle();
 		body = entity.getBody();
 		moment = entity.getMoment();
+		setUser(new UserDTO(entity.getUser()));
 	}
 
 	public Long getId() {
@@ -59,5 +62,13 @@ public class PostDTO implements Serializable {
 
 	public void setMoment(Instant moment) {
 		this.moment = moment;
+	}
+
+	public UserDTO getUser() {
+		return user;
+	}
+
+	public void setUser(UserDTO user) {
+		this.user = user;
 	}
 }

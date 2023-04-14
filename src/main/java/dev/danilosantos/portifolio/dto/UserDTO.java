@@ -1,8 +1,6 @@
 package dev.danilosantos.portifolio.dto;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 import dev.danilosantos.portifolio.entities.User;
 
@@ -13,8 +11,6 @@ public class UserDTO implements Serializable {
 	private String name;
 	private String email;
 	private String password;
-	
-	private List<PostDTO> posts = new ArrayList<>();
 	
 	public UserDTO() {}
 
@@ -29,7 +25,7 @@ public class UserDTO implements Serializable {
 		id = entity.getId();
 		name = entity.getName();
 		email = entity.getEmail();
-		entity.getPosts().forEach(post -> posts.add(new PostDTO(post)));;
+		password = entity.getPassword();
 	}
 
 	public Long getId() {
@@ -62,13 +58,5 @@ public class UserDTO implements Serializable {
 
 	public void setPassword(String password) {
 		this.password = password;
-	}
-
-	public List<PostDTO> getPosts() {
-		return posts;
-	}
-
-	public void setPosts(List<PostDTO> posts) {
-		this.posts = posts;
 	}
 }
