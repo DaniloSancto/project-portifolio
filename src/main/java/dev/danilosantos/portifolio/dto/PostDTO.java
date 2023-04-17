@@ -3,6 +3,8 @@ package dev.danilosantos.portifolio.dto;
 import java.io.Serializable;
 import java.time.Instant;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import dev.danilosantos.portifolio.entities.Post;
 
 public class PostDTO implements Serializable {
@@ -11,6 +13,8 @@ public class PostDTO implements Serializable {
 	private Long id;
 	private String title;
 	private String body;
+
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
 	private Instant moment;
 	private UserDTO user;
 	

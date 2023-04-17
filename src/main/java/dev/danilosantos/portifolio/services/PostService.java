@@ -1,5 +1,6 @@
 package dev.danilosantos.portifolio.services;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,7 +41,7 @@ public class PostService {
 		entity.setId(dto.getId());
 		entity.setTitle(dto.getTitle());
 		entity.setBody(dto.getBody());
-		entity.setMoment(dto.getMoment());
+		entity.setMoment(Instant.now());
 		userRepository.findById(dto.getUser().getId()).ifPresent(user -> entity.setUser(user));
 	}
 }
