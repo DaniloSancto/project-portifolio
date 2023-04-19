@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import dev.danilosantos.portifolio.dto.UserDTO;
+import dev.danilosantos.portifolio.dto.UserInsertDTO;
 import dev.danilosantos.portifolio.entities.User;
 import dev.danilosantos.portifolio.repositories.UserRepository;
 import dev.danilosantos.portifolio.services.exceptions.ResourceNotFoundException;
@@ -33,9 +34,10 @@ public class UserService {
 	}
 	
 	@Transactional
-	public UserDTO insert(UserDTO obj) {
+	public UserDTO insert(UserInsertDTO obj) {
 		User entity = new User();
 		copyDtoToEntity(obj, entity);
+		entity.setPassword(obj.getPassword());
 		entity = repository.save(entity);
 		return new UserDTO(entity);
 	}
@@ -44,6 +46,5 @@ public class UserService {
 		entity.setId(dto.getId());
 		entity.setName(dto.getName());
 		entity.setEmail(dto.getEmail());
-		entity.setPassword(dto.getPassword());
 	}
 }
