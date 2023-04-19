@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import dev.danilosantos.portifolio.dto.PostDTO;
-import dev.danilosantos.portifolio.entities.Post;
+import dev.danilosantos.portifolio.dto.PostInsertDTO;
 import dev.danilosantos.portifolio.services.PostService;
 
 @RestController
@@ -25,19 +25,19 @@ public class PostController {
 	private PostService service;
 	
 	@GetMapping
-	public ResponseEntity<List<Post>> findAll() {
-		List<Post> list = service.findAll();
+	public ResponseEntity<List<PostDTO>> findAll() {
+		List<PostDTO> list = service.findAll();
 		return ResponseEntity.ok().body(list);
 	}
 	
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<Post> findById(@PathVariable Long id) {
-		Post obj = service.findById(id);
+	public ResponseEntity<PostDTO> findById(@PathVariable Long id) {
+		PostDTO obj = service.findById(id);
 		return ResponseEntity.ok().body(obj);
 	}
 	
 	@PostMapping
-	public ResponseEntity<PostDTO> insert(@RequestBody PostDTO obj) {
+	public ResponseEntity<PostDTO> insert(@RequestBody PostInsertDTO obj) {
 		PostDTO newDto = service.insert(obj);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(newDto.getId()).toUri();
 		return ResponseEntity.created(uri).body(newDto);

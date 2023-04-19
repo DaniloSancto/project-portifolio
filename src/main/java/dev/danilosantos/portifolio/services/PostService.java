@@ -3,14 +3,17 @@ package dev.danilosantos.portifolio.services;
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import dev.danilosantos.portifolio.dto.PostDTO;
+import dev.danilosantos.portifolio.dto.PostInsertDTO;
 import dev.danilosantos.portifolio.entities.Post;
 import dev.danilosantos.portifolio.repositories.PostRepository;
 import dev.danilosantos.portifolio.repositories.UserRepository;
+import dev.danilosantos.portifolio.services.exceptions.ResourceNotFoundException;
 
 @Service
 public class PostService {
@@ -21,23 +24,25 @@ public class PostService {
 	@Autowired
 	private UserRepository userRepository;
 	
-	public List<Post> findAll() {
-		return repository.findAll();
+	public List<PostDTO> findAll() {
+		List<Post> list = repository.findAll();
+		return list.stream().map(x -> new PostDTO(x)).collect(Collectors.toList());
 	}
 	
-	public Post findById(Long id) {
+	public PostDTO findById(Long id) {
 		Optional<Post> obj = repository.findById(id);
-		return obj.get();
+		Post entity = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
+		return new PostDTO(entity);
 	}
 	
-	public PostDTO insert(PostDTO obj) {
+	public PostDTO insert(PostInsertDTO obj) {
 		Post entity = new Post();
 		copyDtoToEntity(obj, entity);
 		entity = repository.save(entity);
 		return new PostDTO(entity);
 	}
 	
-	private void copyDtoToEntity(PostDTO dto, Post entity) {
+	private void copyDtoToEntity(PostInsertDTO dto, Post entity) {
 		entity.setId(dto.getId());
 		entity.setTitle(dto.getTitle());
 		entity.setBody(dto.getBody());
