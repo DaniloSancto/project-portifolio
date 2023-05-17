@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +20,9 @@ public class UserService {
 	
 	@Autowired
 	private UserRepository repository;
+	
+	@Autowired
+    private PasswordEncoder passwordEncoder;
 	
 	@Transactional(readOnly = true)
 	public List<UserDTO> findAll() {
@@ -37,7 +41,7 @@ public class UserService {
 	public UserDTO insert(UserInsertDTO obj) {
 		User entity = new User();
 		copyDtoToEntity(obj, entity);
-		entity.setPassword(obj.getPassword());
+		entity.setPassword(passwordEncoder.encode(obj.getPassword()));
 		entity = repository.save(entity);
 		return new UserDTO(entity);
 	}
