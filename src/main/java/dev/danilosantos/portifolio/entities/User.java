@@ -1,10 +1,15 @@
 package dev.danilosantos.portifolio.entities;
 
-import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import dev.danilosantos.portifolio.enums.Role;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -14,7 +19,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "tb_user")
-public class User implements Serializable {
+public class User implements UserDetails {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -23,6 +28,7 @@ public class User implements Serializable {
 	private String name;
 	private String email;
 	private String password;
+	private Role role;
 
 	@OneToMany(mappedBy = "user")
 	private List<Post> posts = new ArrayList<>();
@@ -35,6 +41,7 @@ public class User implements Serializable {
 		this.name = name;
 		this.email = email;
 		this.password = password;
+		role = Role.USER;
 	}
 
 	public Long getId() {
@@ -60,11 +67,7 @@ public class User implements Serializable {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-
-	public String getPassword() {
-		return password;
-	}
-
+	
 	public void setPassword(String password) {
 		this.password = password;
 	}
@@ -73,6 +76,49 @@ public class User implements Serializable {
 		return posts;
 	}
 
+	public Role getRole() {
+		return role;
+	}
+
+	public void setRole(Role role) {
+		this.role = role;
+	}
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return List.of(new SimpleGrantedAuthority(role.name()));
+	}
+
+	@Override
+	public String getUsername() {
+		return email;
+	}
+	
+	@Override
+	public String getPassword() {
+		return password;
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		return true;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		return true;
+	}
+	
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
