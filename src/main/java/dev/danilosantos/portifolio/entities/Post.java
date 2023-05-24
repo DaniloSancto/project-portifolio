@@ -83,10 +83,10 @@ public class Post implements Serializable {
 	public void setUser(User user) {
 		this.user = user;
 	}
-	
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(body, id, moment, title);
+		return Objects.hash(id);
 	}
 
 	@Override
@@ -98,7 +98,6 @@ public class Post implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Post other = (Post) obj;
-		return Objects.equals(body, other.body) && Objects.equals(id, other.id) && Objects.equals(moment, other.moment)
-				&& Objects.equals(title, other.title);
+		return Objects.equals(id, other.id);
 	}
 }

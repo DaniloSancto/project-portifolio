@@ -16,18 +16,19 @@ import jakarta.persistence.Table;
 @Table(name = "tb_user")
 public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String name;
 	private String email;
 	private String password;
-	
+
 	@OneToMany(mappedBy = "user")
 	private List<Post> posts = new ArrayList<>();
-	
-	public User() {}
+
+	public User() {
+	}
 
 	public User(Long id, String name, String email, String password) {
 		this.id = id;
@@ -74,7 +75,7 @@ public class User implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(email, id, name, password);
+		return Objects.hash(id);
 	}
 
 	@Override
@@ -86,7 +87,6 @@ public class User implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		User other = (User) obj;
-		return Objects.equals(email, other.email) && Objects.equals(id, other.id) && Objects.equals(name, other.name)
-				&& Objects.equals(password, other.password);
+		return Objects.equals(id, other.id);
 	}
 }
