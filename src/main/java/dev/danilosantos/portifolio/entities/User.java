@@ -32,6 +32,9 @@ public class User implements UserDetails {
 
 	@OneToMany(mappedBy = "user")
 	private List<Post> posts = new ArrayList<>();
+	
+	@OneToMany(mappedBy = "user")
+	private List<Token> tokens;
 
 	public User() {
 	}
@@ -41,7 +44,6 @@ public class User implements UserDetails {
 		this.name = name;
 		this.email = email;
 		this.password = password;
-		role = Role.USER;
 	}
 
 	public Long getId() {
