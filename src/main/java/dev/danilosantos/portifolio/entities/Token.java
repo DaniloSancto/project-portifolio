@@ -1,5 +1,6 @@
 package dev.danilosantos.portifolio.entities;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 import dev.danilosantos.portifolio.enums.TokenType;
@@ -15,7 +16,8 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "tb_token")
-public class Token {
+public class Token implements Serializable {
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,11 +36,12 @@ public class Token {
 	public Token() {
 	}
 
-	public Token(Long id, String token, TokenType tokenType, boolean expired) {
+	public Token(Long id, String token, TokenType tokenType, boolean expired, User user) {
 		this.id = id;
 		this.token = token;
 		this.tokenType = tokenType;
 		this.expired = expired;
+		this.user = user;
 	}
 
 	public Long getId() {
