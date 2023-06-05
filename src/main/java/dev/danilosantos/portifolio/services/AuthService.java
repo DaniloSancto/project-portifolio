@@ -51,18 +51,28 @@ public class AuthService {
 		authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(obj.getEmail(), obj.getPassword()));
 		var user = userRepository.findByEmail(obj.getEmail()).orElseThrow();
 		var jwtToken = jwtService.generateToken(user);
+		revokeAllUserToken(user);
 		saveUserToken(user, jwtToken);
 		return new AuthResponseDTO(jwtToken);
 	}
 
-	private void copyDtoToEntity(UserDTO dto, User entity) {
-		entity.setId(dto.getId());
-		entity.setName(dto.getName());
-		entity.setEmail(dto.getEmail());
+	private void revokeAllUserToken(User user) {
+		var validUserTokens = tokenRepository.findAllValidTokensByUser(user.getId());
+		if(validUserTokens.isEmpty()) {
+			return;
+		}
+		validUserTokens.forEach(t -> t.setExpired(true));
+		tokenRepository.saveAll(validUserTokens);
 	}
 	
 	private void saveUserToken(User user, String jwtToken) {
 		var token = new Token(null, jwtToken, TokenType.BEARER, false, user);
 		tokenRepository.save(token);
+	}
+	
+	private void copyDtoToEntity(UserDTO dto, User entity) {
+		entity.setId(dto.getId());
+		entity.setName(dto.getName());
+		entity.setEmail(dto.getEmail());
 	}
 }
