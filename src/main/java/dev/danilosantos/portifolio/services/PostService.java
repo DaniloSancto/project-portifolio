@@ -47,6 +47,11 @@ public class PostService {
 		entity.setTitle(dto.getTitle());
 		entity.setBody(dto.getBody());
 		entity.setMoment(Instant.now());
-		userRepository.findById(dto.getUser().getId()).ifPresent(user -> entity.setUser(user));
+		try {
+			userRepository.findById(dto.getUser().getId()).ifPresentOrElse(user -> entity.setUser(user), null);
+		}
+		catch(NullPointerException e) {
+			throw new ResourceNotFoundException("User don't exist. " + e.getMessage());
+		}
 	}
 }
