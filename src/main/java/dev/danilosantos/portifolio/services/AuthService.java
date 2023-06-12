@@ -5,6 +5,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.ResourceAccessException;
 
 import dev.danilosantos.portifolio.dto.AuthRegisterDTO;
 import dev.danilosantos.portifolio.dto.AuthRequestDTO;
@@ -37,6 +38,10 @@ public class AuthService {
 	
 
 	public AuthResponseDTO register(AuthRegisterDTO obj) {
+		if(!userRepository.findByEmail(obj.getEmail()).isEmpty()) {
+			throw new ResourceAccessException("User alredy exist.");
+		}
+		
 		User entity = new User();
 		copyDtoToEntity(obj, entity);
 		entity.setPassword(passwordEncoder.encode(obj.getPassword()));
@@ -44,7 +49,7 @@ public class AuthService {
 		var savedUser = userRepository.save(entity);
 		var jwtToken = jwtService.generateToken(entity);
 		saveUserToken(savedUser, jwtToken);
-		return new AuthResponseDTO(jwtToken);
+		return new AuthResponseDTO(jwtToken, entity.getId(), entity.getName());
 	}
 
 	public AuthResponseDTO login(AuthRequestDTO obj) {
@@ -53,7 +58,7 @@ public class AuthService {
 		var jwtToken = jwtService.generateToken(user);
 		revokeAllUserToken(user);
 		saveUserToken(user, jwtToken);
-		return new AuthResponseDTO(jwtToken);
+		return new AuthResponseDTO(jwtToken, user.getId(), user.getName());
 	}
 
 	private void revokeAllUserToken(User user) {
