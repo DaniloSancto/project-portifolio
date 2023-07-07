@@ -5,7 +5,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.ResourceAccessException;
+import org.springframework.transaction.annotation.Transactional;
 
 import dev.danilosantos.portifolio.dto.AuthRegisterDTO;
 import dev.danilosantos.portifolio.dto.AuthRequestDTO;
@@ -20,28 +20,24 @@ import dev.danilosantos.portifolio.repositories.UserRepository;
 
 @Service
 public class AuthService {
-	
+
 	@Autowired
 	private UserRepository userRepository;
-	
+
 	@Autowired
 	private TokenRepository tokenRepository;
-	
+
 	@Autowired
-    private PasswordEncoder passwordEncoder;
-	
+	private PasswordEncoder passwordEncoder;
+
 	@Autowired
-    private JwtService jwtService;
-	
+	private JwtService jwtService;
+
 	@Autowired
 	private AuthenticationManager authenticationManager;
-	
 
+	@Transactional
 	public AuthResponseDTO register(AuthRegisterDTO obj) {
-		if(!userRepository.findByEmail(obj.getEmail()).isEmpty()) {
-			throw new ResourceAccessException("User alredy exist.");
-		}
-		
 		User entity = new User();
 		copyDtoToEntity(obj, entity);
 		entity.setPassword(passwordEncoder.encode(obj.getPassword()));
@@ -63,18 +59,18 @@ public class AuthService {
 
 	private void revokeAllUserToken(User user) {
 		var validUserTokens = tokenRepository.findAllValidTokensByUser(user.getId());
-		if(validUserTokens.isEmpty()) {
+		if (validUserTokens.isEmpty()) {
 			return;
 		}
 		validUserTokens.forEach(t -> t.setExpired(true));
 		tokenRepository.saveAll(validUserTokens);
 	}
-	
+
 	private void saveUserToken(User user, String jwtToken) {
 		var token = new Token(null, jwtToken, TokenType.BEARER, false, user);
 		tokenRepository.save(token);
 	}
-	
+
 	private void copyDtoToEntity(UserDTO dto, User entity) {
 		entity.setId(dto.getId());
 		entity.setName(dto.getName());

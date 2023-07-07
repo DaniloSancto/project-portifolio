@@ -11,6 +11,7 @@ import dev.danilosantos.portifolio.dto.AuthRegisterDTO;
 import dev.danilosantos.portifolio.dto.AuthRequestDTO;
 import dev.danilosantos.portifolio.dto.AuthResponseDTO;
 import dev.danilosantos.portifolio.services.AuthService;
+import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping(value = "/auth")
@@ -20,7 +21,7 @@ public class AuthController {
 	private AuthService service;
 
 	@PostMapping(value = "/register")
-	public ResponseEntity<AuthResponseDTO> register(@RequestBody AuthRegisterDTO request) {
+	public ResponseEntity<AuthResponseDTO> register(@Valid @RequestBody AuthRegisterDTO request) {
 		return ResponseEntity.ok(service.register(request));
 	}
 	
