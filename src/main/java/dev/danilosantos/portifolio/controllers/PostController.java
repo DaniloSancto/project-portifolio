@@ -3,7 +3,6 @@ package dev.danilosantos.portifolio.controllers;
 import java.net.URI;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,9 +20,12 @@ import dev.danilosantos.portifolio.services.PostService;
 @RequestMapping(value = "/posts")
 public class PostController {
 	
-	@Autowired
 	private PostService service;
 	
+	public PostController(PostService service) {
+		this.service = service;
+	}
+
 	@GetMapping
 	public ResponseEntity<List<PostDTO>> findAll() {
 		List<PostDTO> list = service.findAll();

@@ -1,6 +1,5 @@
 package dev.danilosantos.portifolio.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,20 +20,21 @@ import dev.danilosantos.portifolio.repositories.UserRepository;
 @Service
 public class AuthService {
 
-	@Autowired
 	private UserRepository userRepository;
-
-	@Autowired
 	private TokenRepository tokenRepository;
-
-	@Autowired
 	private PasswordEncoder passwordEncoder;
-
-	@Autowired
 	private JwtService jwtService;
-
-	@Autowired
 	private AuthenticationManager authenticationManager;
+	
+
+	public AuthService(UserRepository userRepository, TokenRepository tokenRepository, PasswordEncoder passwordEncoder,
+			JwtService jwtService, AuthenticationManager authenticationManager) {
+		this.userRepository = userRepository;
+		this.tokenRepository = tokenRepository;
+		this.passwordEncoder = passwordEncoder;
+		this.jwtService = jwtService;
+		this.authenticationManager = authenticationManager;
+	}
 
 	@Transactional
 	public AuthResponseDTO register(AuthRegisterDTO obj) {

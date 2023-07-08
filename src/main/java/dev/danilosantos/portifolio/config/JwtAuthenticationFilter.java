@@ -2,7 +2,6 @@ package dev.danilosantos.portifolio.config;
 
 import java.io.IOException;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -22,15 +21,16 @@ import jakarta.servlet.http.HttpServletResponse;
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 	
-	@Autowired
-	private JwtService jwtService;
-	
-	@Autowired
-	private UserDetailsService userDetailsService;
-	
-	@Autowired
+	private JwtService jwtService;	
+	private UserDetailsService userDetailsService;	
 	private TokenRepository tokenRepository;
-
+	
+	public JwtAuthenticationFilter(JwtService jwtService, UserDetailsService userDetailsService, TokenRepository tokenRepository) {
+		this.jwtService = jwtService;
+		this.userDetailsService = userDetailsService;
+		this.tokenRepository = tokenRepository;
+	}
+	
 	@Override
 	protected void doFilterInternal(
 			@NonNull HttpServletRequest request,

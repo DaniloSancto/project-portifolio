@@ -1,6 +1,5 @@
 package dev.danilosantos.portifolio.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -17,14 +16,15 @@ import org.springframework.security.web.authentication.logout.LogoutHandler;
 @EnableWebSecurity
 public class SecurityConfig {
 
-	@Autowired
-    private JwtAuthenticationFilter jwtAuthFilter;
-	
-	@Autowired
-	private AuthenticationProvider authenticationProvider;
-	
-	@Autowired
+    private JwtAuthenticationFilter jwtAuthFilter;	
+	private AuthenticationProvider authenticationProvider;	
 	private LogoutHandler logoutHandler;
+	
+	public SecurityConfig (JwtAuthenticationFilter jwtAuthFilter, AuthenticationProvider authenticationProvider,LogoutHandler logoutHandler) {
+		this.jwtAuthFilter = jwtAuthFilter;
+		this.authenticationProvider = authenticationProvider;
+		this.logoutHandler = logoutHandler;
+	}
     
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {

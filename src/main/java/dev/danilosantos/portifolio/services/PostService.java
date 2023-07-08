@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import dev.danilosantos.portifolio.dto.PostDTO;
@@ -18,12 +17,14 @@ import dev.danilosantos.portifolio.services.exceptions.ResourceNotFoundException
 @Service
 public class PostService {
 	
-	@Autowired
 	private PostRepository repository;
-	
-	@Autowired
 	private UserRepository userRepository;
 	
+	public PostService(PostRepository repository, UserRepository userRepository) {
+		this.repository = repository;
+		this.userRepository = userRepository;
+	}
+
 	public List<PostDTO> findAll() {
 		List<Post> list = repository.findAll();
 		return list.stream().map(x -> new PostDTO(x)).collect(Collectors.toList());

@@ -3,8 +3,6 @@ package dev.danilosantos.portifolio.services.validation;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import dev.danilosantos.portifolio.controllers.exceptions.FieldMessage;
 import dev.danilosantos.portifolio.dto.AuthRegisterDTO;
 import dev.danilosantos.portifolio.repositories.UserRepository;
@@ -13,9 +11,12 @@ import jakarta.validation.ConstraintValidatorContext;
 
 public class UserInsertValidator implements ConstraintValidator<UserInsertValid, AuthRegisterDTO> {
 	
-	@Autowired
 	private UserRepository repository;
 	
+	public UserInsertValidator(UserRepository repository) {
+		this.repository = repository;
+	}
+
 	@Override
 	public void initialize(UserInsertValid ann) {
 	}

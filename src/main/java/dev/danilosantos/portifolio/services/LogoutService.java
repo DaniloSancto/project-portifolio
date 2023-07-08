@@ -1,6 +1,5 @@
 package dev.danilosantos.portifolio.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
@@ -13,9 +12,12 @@ import jakarta.servlet.http.HttpServletResponse;
 @Service
 public class LogoutService implements LogoutHandler {
 	
-	@Autowired
 	private TokenRepository tokenRepository;
-
+	
+	public LogoutService(TokenRepository tokenRepository) {
+		this.tokenRepository = tokenRepository;
+	}
+	
 	@Override
 	public void logout(
 			HttpServletRequest request,
