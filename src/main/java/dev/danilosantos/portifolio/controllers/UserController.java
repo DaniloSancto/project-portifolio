@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import dev.danilosantos.portifolio.dto.PostDTO;
 import dev.danilosantos.portifolio.dto.UserDTO;
 import dev.danilosantos.portifolio.services.UserService;
 
@@ -31,5 +32,11 @@ public class UserController {
 	public ResponseEntity<UserDTO> findById(@PathVariable Long id) {
 		UserDTO dto = service.findById(id);
 		return ResponseEntity.ok().body(dto);
+	}
+	
+	@GetMapping(value = "/{id}/posts")
+	public ResponseEntity<List<PostDTO>> findAllUserPosts(@PathVariable Long id) {
+		List<PostDTO> list = service.findAllUserPosts(id);
+		return ResponseEntity.ok().body(list);
 	}
 }

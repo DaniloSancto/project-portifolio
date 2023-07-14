@@ -6,7 +6,7 @@ public class AuthRequestDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private String email;
-	String password;
+	private String password;
 	
 	public AuthRequestDTO() {}
 
