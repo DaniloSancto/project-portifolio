@@ -1,0 +1,14 @@
+button {
+  background-color: var(--pf-color-btn-primary);
+  border: none;
+  border-radius: 10px;
+  width: 100%;
+  height: 70px;
+}
+
+.btn-text {
+  font-size: 0.5em;
+  font-weight: 700;
+  color: var(--pf-color-font-primary);
+  text-transform: uppercase;
+}

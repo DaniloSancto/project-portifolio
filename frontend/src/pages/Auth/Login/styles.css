@@ -1,0 +1,53 @@
+.login-container {
+  height: 100%;
+}
+
+.login-card {
+  font-size: 16px;
+  padding: 50px;
+}
+
+.login-card h1 {
+  font-weight: 400;
+  font-size: 2.5em;
+  line-height: 65px;
+  text-align: center;
+  color: var(--pf-color-font-secondary);
+  text-transform: uppercase;
+  margin-top: 40px;
+  margin-bottom: 55px;
+}
+
+.form-container input {
+  width: calc(100% - 24px);
+  padding-left: 20px;
+}
+
+.button-container {
+  margin-top: 120px;
+}
+
+.signup-container {
+  text-align: center;
+  margin-bottom: 70px;
+}
+
+.login-link-register {
+  font-weight: bold;
+  font-size: 0.35em;
+  text-align: center;
+  letter-spacing: -0.015em;
+  text-decoration-line: underline;
+  color: var(--pf-color-font-quaternary);
+  margin-left: 10px;
+}
+
+.not-registered {
+  font-weight: bold;
+  font-size: 0.35em;
+  text-align: center;
+  color: var(--pf-color-font-tertiary);
+}
+
+@media (min-width: 576px) {
+}

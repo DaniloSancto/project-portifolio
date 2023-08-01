@@ -1,22 +1,40 @@
-@import url("../../index.css");
-
 .nav-container {
   background-color: var(--pf-color-bg-secondary);
   color: var(--pf-color-font-primary);
-  height: 70px;
-  padding: 0 40px;
+  padding: 0 15px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  align-items: center;
 }
 
 .nav-content {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 100%;
+  height: 70px;
+  width: 100%;
+  max-width: 1400px;
 }
 
-.nav-content h1 {
-  font-size: 24px;
+.logo-text {
+  font-size: 0.45em;
+}
+
+.link-text {
+  font-size: 0.3em;
+  font-weight: 700;
+}
+
+@media (min-width: 576px) {
+  .nav-container {
+    padding: 0 25px;
+  }
+
+  .logo-text {
+    font-size: 0.5em;
+  }
+
+  .link-text {
+    font-size: 0.35em;
+  }
 }
